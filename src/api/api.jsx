@@ -6,7 +6,7 @@ const local = 'http://localhost:5000';
 const production = ''
 
 let api_url = ''
-let mode = 'dev'
+let mode = 'pro'
 
 
 export let base_url = mode === 'pro' ? "" : 'http://localhost:3000';
