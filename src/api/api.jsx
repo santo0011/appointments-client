@@ -3,13 +3,13 @@ import axios from 'axios';
 const local = 'http://localhost:5000';
 
 
-const production = ''
+const production = 'https://doctor-appointment-server-oezy.onrender.com'
 
 let api_url = ''
 let mode = 'pro'
 
 
-export let base_url = mode === 'pro' ? "" : 'http://localhost:3000';
+export let base_url = mode === 'pro' ? "https://appointments-client-dun.vercel.app" : 'http://localhost:3000';
 
 
 if (mode === 'pro') {
