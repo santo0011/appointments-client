@@ -16,6 +16,22 @@ export const get_apply_appointments = createAsyncThunk(
 );
 
 
+// approve_book_status
+export const approve_book_status = createAsyncThunk(
+    "doctor/approve_book_status",
+    async (obj, { rejectWithValue, fulfillWithValue }) => {
+        try {
+            const { data } = await api.put(`/approve-book-status`, obj);
+            return fulfillWithValue(data);
+        } catch (error) {
+            return rejectWithValue(error.response.data);
+        }
+    }
+);
+
+
+
+
 export const doctorReducer = createSlice({
     name: "doctor",
     initialState: {
@@ -43,6 +59,17 @@ export const doctorReducer = createSlice({
             state.loader = false;
             state.requestAppointmets = payload.requestAppointmets;
             state.requestAppointmetCount = payload.requestAppointmetCount;
+        },
+        [approve_book_status.pending]: (state, _) => {
+            state.loader = true;
+        },
+        [approve_book_status.rejected]: (state, { payload }) => {
+            state.loader = false;
+            state.errorMessage = payload.error;
+        },
+        [approve_book_status.fulfilled]: (state, { payload }) => {
+            state.loader = false;
+            state.successMessage = payload.message
         }
 
     },
