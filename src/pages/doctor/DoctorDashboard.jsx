@@ -93,7 +93,7 @@ const DoctorDashboard = () => {
                                                     <th scope="col">Date</th>
                                                     <th scope="col">Time</th>
                                                     <th scope="col">Status</th>
-                                                    <th scope="col">Actions</th>
+                                                    <th className='' scope="col">Actions</th>
 
                                                 </tr>
                                             </thead>
@@ -105,16 +105,16 @@ const DoctorDashboard = () => {
                                                             <td>{d.userDetails.fullName}</td>
                                                             <td>{moment(d.date).format('DD-MM-YYYY')}</td>
                                                             <td>{moment(d.time, 'HH:mm').format('hh:mm A')}</td>
-                                                            <td style={{ textTransform: "capitalize" }}>{d.status}</td>
+                                                            <td style={{ textTransform: "capitalize",fontWeight:"bold" }} className={d.status === 'approved' ? 'text-success' : d.status === 'rejected' ? 'text-danger' : 'text-primary'}>{d.status}</td>
                                                             <td style={{ cursor: 'pointer', textDecoration: "underline", fontWeight: "bold" }}>
 
                                                                 <div className="dropdown">
                                                                     <button className="btn btn-primary btn-sm dropdown-toggl" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                        Select Status
+                                                                        Select
                                                                     </button>
                                                                     <ul className="dropdown-menu">
-                                                                        <li onClick={() => (handleBookingStatus(d._id, 'approved'))} ><a className="dropdown-item" href="#">Approve</a></li>
-                                                                        <li onClick={() => (handleBookingStatus(d._id, 'rejected'))} ><a className="dropdown-item" href="#">Reject</a></li>
+                                                                        <li onClick={() => (handleBookingStatus(d._id, 'approved'))} ><a className="dropdown-item  text-success py-2 font-weight-bold">Approve</a></li>
+                                                                        <li onClick={() => (handleBookingStatus(d._id, 'rejected'))} ><a className="dropdown-item  text-danger py-2 font-weight-bold">Reject</a></li>
                                                                     </ul>
                                                                 </div>
 
