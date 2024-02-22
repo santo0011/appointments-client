@@ -129,6 +129,19 @@ export const book_appointment = createAsyncThunk(
 );
 
 
+// get_appointment
+export const get_appointment = createAsyncThunk(
+  "user/get_appointment",
+  async ({ searchValue, page, parPage }, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.get(`/get-appointment?searchValue=${searchValue}&&page=${page}&&parPage=${parPage}`);
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 
 export const userReducer = createSlice({
   name: "user",

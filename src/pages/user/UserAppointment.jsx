@@ -2,45 +2,30 @@ import React, { useEffect, useState } from 'react';
 import Navbar from '../../components/layout/Navbar';
 import Sidebar from '../../components/layout/Sidebar';
 import LogoBar from '../../components/layout/LogoBar';
+import { useForm } from 'react-hook-form';
+import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { approve_book_status, get_apply_appointments, messageClear } from '../../store/Reducers/doctorReducer';
-import Pagination from '../../components/layout/Pagination';
-import moment from 'moment';
+import { PropagateLoader } from 'react-spinners';
 import toast from 'react-hot-toast';
+import { overrideStyle } from '../../utils/utils';
+import moment from 'moment';
+import Pagination from '../../components/layout/Pagination';
+import { get_appointment } from '../../store/Reducers/userReducer';
 
 
-
-const DoctorDashboard = () => {
-    const dispatch = useDispatch();
-
+const UserAppointment = () => {
     const { userInfo } = useSelector((state) => state.auth);
     const { id, email, isAdmin, name, isDoctor } = userInfo;
 
-    const { errorMessage, successMessage, loader, requestAppointmets, requestAppointmetCount } = useSelector(state => state.doctor);
+    const dispatch = useDispatch()
+
     const [searchValue, setSearchValue] = useState('');
     const [currentPage, setCurrentPage] = useState(1)
-    const [parPage, setParPage] = useState(10)
-
+    const [parPage, setParPage] = useState(5)
 
     // handleItemPerPageChange
     const handleItemPerPageChange = (e) => {
         setParPage(e.target.value)
-    }
-
-    // handleMessage
-    const handleMessage = (msg) => {
-        setSearchValue(msg)
-    };
-
-    // handleBookingStatus
-    const handleBookingStatus = (bookId, status, data) => {
-        const obj = {
-            bookId,
-            status,
-            userId: data.userDetails._id,
-            doctorId: data.doctorId
-        }
-        dispatch(approve_book_status(obj))
     }
 
 
@@ -49,30 +34,19 @@ const DoctorDashboard = () => {
             parPage: parseInt(parPage),
             page: parseInt(currentPage),
             searchValue,
-            id
         }
-        dispatch(get_apply_appointments(obj))
-    }, [searchValue, currentPage, parPage, id, successMessage])
+        dispatch(get_appointment(obj))
+    }, [searchValue, currentPage, parPage, id])
 
 
-    useEffect(() => {
-        if (errorMessage) {
-            toast.error(errorMessage)
-            dispatch(messageClear())
-        }
-        if (successMessage) {
-            toast.success(successMessage)
-            dispatch(messageClear())
-        }
-    }, [errorMessage, successMessage])
 
-
+    let requestAppointmetCount = 10;
 
     return (
         <div className="wrapper">
             <div className="main-header">
                 <LogoBar />
-                <Navbar onMessage={handleMessage} />
+                <Navbar />
             </div>
             <Sidebar />
             <div className="main-panel">
@@ -84,47 +58,40 @@ const DoctorDashboard = () => {
                             <div className="col-md-12">
                                 <div className="card">
                                     <div className="card-header">
-                                        <div className="card-title bold-text">User Booking List</div>
+                                        <div className="card-title bold-text">My Booking List</div>
                                     </div>
                                     <div className="card-body">
-                                        <table className="table mt-0 pt-0">
+                                        <table className="table mt-0 pt-0 ">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col">No</th>
-                                                    <th scope="col">User Name</th>
-                                                    <th scope="col">Date</th>
-                                                    <th scope="col">Time</th>
-                                                    <th scope="col">Status</th>
-                                                    <th className='' scope="col">Actions</th>
+                                                    <th className='text-center' scope="col">No</th>
+                                                    <th className='text-center' scope="col">Doctor Name</th>
+                                                    <th className='text-center' scope="col">Date</th>
+                                                    <th className='text-center' scope="col">Time</th>
+                                                    <th className='text-center' scope="col">Fee</th>
+                                                    <th className='text-center' scope="col">Location</th>
+                                                    <th className='text-center' scope="col">Status</th>
 
                                                 </tr>
                                             </thead>
                                             <tbody>
+
                                                 {
-                                                    requestAppointmets && requestAppointmets?.map((d, i) =>
-                                                        <tr>
-                                                            <td>{i + 1 + (currentPage - 1) * parPage}</td>
-                                                            <td>{d.userDetails.fullName}</td>
-                                                            <td>{moment(d.date).format('DD-MM-YYYY')}</td>
-                                                            <td>{moment(d.time, 'HH:mm').format('hh:mm A')}</td>
-                                                            <td style={{ textTransform: "capitalize", fontWeight: "bold" }} className={d.status === 'approved' ? 'text-success' : d.status === 'rejected' ? 'text-danger' : 'text-primary'}>{d.status}</td>
-                                                            <td style={{ cursor: 'pointer', textDecoration: "underline", fontWeight: "bold" }}>
-
-                                                                <div className="dropdown">
-                                                                    <button className="btn btn-primary btn-sm dropdown-toggl" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                                        Select
-                                                                    </button>
-                                                                    <ul className="dropdown-menu">
-                                                                        <li onClick={() => (handleBookingStatus(d._id, 'approved', d))} ><a className="dropdown-item  text-success py-2 font-weight-bold">Approve</a></li>
-                                                                        <li onClick={() => (handleBookingStatus(d._id, 'rejected', d))} ><a className="dropdown-item  text-danger py-2 font-weight-bold">Reject</a></li>
-                                                                    </ul>
-                                                                </div>
-
-                                                            </td>
-
-                                                        </tr>
-                                                    )
+                                                    [1, 2, 3, 4, 5, 6].map((b, i) => {
+                                                        return <>
+                                                            <tr>
+                                                                <td className='text-center'>{i + 1 + (currentPage - 1) * parPage}</td>
+                                                                <td className='text-center'>Dr. Ria Alexander</td>
+                                                                <td className='text-center'>23-02-2024</td>
+                                                                <td className='text-center'>3:15 PM</td>
+                                                                <td className='text-center'> ₹  500</td>
+                                                                <td className='text-center'>Nahata</td>
+                                                                <td className='text-center' style={{ textTransform: "capitalize" }}>pending</td>
+                                                            </tr>
+                                                        </>
+                                                    })
                                                 }
+
 
                                             </tbody>
                                         </table>
@@ -183,4 +150,4 @@ const DoctorDashboard = () => {
 }
 
 
-export default DoctorDashboard;
+export default UserAppointment;

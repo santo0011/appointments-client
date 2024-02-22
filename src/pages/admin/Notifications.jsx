@@ -109,22 +109,23 @@ const Notifications = () => {
                                                     <p>Mark all as seen</p>
                                                 </div>
 
-                                                <div>
+                                                <div style={{ height: "300px", overflowY: "auto" }}>
+
+                                                    {isAdmin ?
+                                                        (unseenNotifications?.map(notification => (
+                                                            <div key={notification.id} className={`alert-${notification.message.includes('rejecte') ? 'danger' : 'success'} my-2 py-3 px-3 rounded`} style={{ cursor: 'pointer' }} onClick={() => navigate(notification.onclickPath)}>
+                                                                <span className="">{notification.message} !</span>
+                                                            </div>
+                                                        ))) :
+                                                        (userUnseenNotifications.map(notification => (
+                                                            <div key={notification._id} className={`alert-${notification.message.includes('rejecte') ? 'danger' : 'success'} my-2 py-3 px-3 rounded`} style={{ cursor: 'pointer' }} onClick={() => navigate(notification.onclickPath)}>
+                                                                <span className="">{notification.message} !</span>
+                                                            </div>
+                                                        )))
+                                                    }
 
                                                 </div>
 
-                                                {isAdmin ?
-                                                    (unseenNotifications?.map(notification => (
-                                                        <div key={notification.id} className='card-sub border py-2 px-3' style={{ cursor: 'pointer' }} onClick={() => navigate(notification.onclickPath)}>
-                                                            <span className="">{notification.message} !</span>
-                                                        </div>
-                                                    ))) :
-                                                    (userUnseenNotifications.map(notification => (
-                                                        <div key={notification.id} className='card-sub border py-2 px-3' style={{ cursor: 'pointer' }} onClick={() => navigate(notification.onclickPath)}>
-                                                            <span className="">{notification.message} !</span>
-                                                        </div>
-                                                    )))
-                                                }
 
 
                                             </div>
@@ -134,18 +135,23 @@ const Notifications = () => {
                                                     <p>Delete all</p>
                                                 </div>
 
-                                                {isAdmin ?
-                                                    (seenNotifications?.map(notification => (
-                                                        <div key={notification.id} className='card-sub border py-2 px-3' style={{ cursor: 'pointer' }} onClick={() => navigate(notification.onclickPath)}>
-                                                            <span>{notification.message} !</span>
-                                                        </div>
-                                                    ))) :
-                                                    (userSeenNotifications.map(notification => (
-                                                        <div key={notification.id} className='card-sub border py-2 px-3' style={{ cursor: 'pointer' }} onClick={() => navigate(notification.onclickPath)}>
-                                                            <span>{notification.message} !</span>
-                                                        </div>
-                                                    )))
-                                                }
+                                                <div style={{ height: "300px", overflowY: "auto" }}>
+
+                                                    {isAdmin ?
+                                                        (seenNotifications?.map(notification => (
+                                                            <div key={notification.id} className={`alert-${notification.message.includes('rejecte') ? 'danger' : 'success'} my-2 py-3 px-3 rounded`} style={{ cursor: 'pointer' }} onClick={() => navigate(notification.onclickPath)}>
+                                                                <span className=''>{notification.message} !</span>
+                                                            </div>
+                                                        ))) :
+                                                        (userSeenNotifications.map(notification => (
+                                                            <div key={notification.id} className={`alert-${notification.message.includes('rejecte') ? 'danger' : 'success'} my-2 py-3 px-3 rounded`} style={{ cursor: 'pointer' }} onClick={() => navigate(notification.onclickPath)}>
+                                                                <span className=''>{notification.message} !</span>
+                                                            </div>
+                                                        )))
+                                                    }
+
+                                                </div>
+
 
                                             </div>
 

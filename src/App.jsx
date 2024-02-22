@@ -20,6 +20,7 @@ import InvalidPage from './pages/InvalidPage';
 import DoctorProtectRoute from './pages/auth/DoctorProtectRoute';
 import DoctorDashboard from './pages/doctor/DoctorDashboard';
 import DoctorProfile from './pages/doctor/DoctorProfile';
+import UserAppointment from './pages/user/UserAppointment';
 
 
 const App = () => {
@@ -46,6 +47,7 @@ const App = () => {
           <Route path='apply-doctor' element={<ApplyDoctor />} />
           <Route path='user-profile' element={<UserProfile />} />
           <Route path='user-notifications' element={<Notifications />} />
+          <Route path='book-appointments' element={<UserAppointment />} />
         </Route>
 
 
