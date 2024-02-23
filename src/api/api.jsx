@@ -6,7 +6,7 @@ const local = 'http://localhost:5000';
 const production = 'https://doctor-appointment-server-oezy.onrender.com'
 
 let api_url = ''
-let mode = 'dev'
+let mode = 'pro'
 
 
 export let base_url = mode === 'pro' ? "https://appointments-client-dun.vercel.app" : 'http://localhost:3000';
