@@ -7,6 +7,7 @@ import { approve_book_status, get_apply_appointments, messageClear } from '../..
 import Pagination from '../../components/layout/Pagination';
 import moment from 'moment';
 import toast from 'react-hot-toast';
+import { confirmMessagge } from '../../utils/aleartFunc';
 
 
 
@@ -33,14 +34,17 @@ const DoctorDashboard = () => {
     };
 
     // handleBookingStatus
-    const handleBookingStatus = (bookId, status, data) => {
+    const handleBookingStatus = async (bookId, status, data) => {
         const obj = {
             bookId,
             status,
             userId: data.userDetails._id,
             doctorId: data.doctorId
         }
-        dispatch(approve_book_status(obj))
+        const returnValue = await confirmMessagge(status);
+        if (returnValue) {
+            dispatch(approve_book_status(obj))
+        }
     }
 
 
@@ -90,12 +94,12 @@ const DoctorDashboard = () => {
                                         <table className="table mt-0 pt-0">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col">No</th>
-                                                    <th scope="col">User Name</th>
-                                                    <th scope="col">Date</th>
-                                                    <th scope="col">Time</th>
-                                                    <th scope="col">Status</th>
-                                                    <th className='' scope="col">Actions</th>
+                                                    <th className='text-center' scope="col">No</th>
+                                                    <th className='text-center' scope="col">User Name</th>
+                                                    <th className='text-center' scope="col">Date</th>
+                                                    <th className='text-center' scope="col">Time</th>
+                                                    <th className='text-center' scope="col">Status</th>
+                                                    <th className='text-center' scope="col">Actions</th>
 
                                                 </tr>
                                             </thead>
@@ -103,12 +107,14 @@ const DoctorDashboard = () => {
                                                 {
                                                     requestAppointmets && requestAppointmets?.map((d, i) =>
                                                         <tr>
-                                                            <td>{i + 1 + (currentPage - 1) * parPage}</td>
-                                                            <td>{d.userDetails.fullName}</td>
-                                                            <td>{moment(d.date).format('DD-MM-YYYY')}</td>
-                                                            <td>{moment(d.time, 'HH:mm').format('hh:mm A')}</td>
-                                                            <td style={{ textTransform: "capitalize", fontWeight: "bold" }} className={d.status === 'approved' ? 'text-success' : d.status === 'rejected' ? 'text-danger' : 'text-primary'}>{d.status}</td>
-                                                            <td style={{ cursor: 'pointer', textDecoration: "underline", fontWeight: "bold" }}>
+                                                            <td className='text-center'>{i + 1 + (currentPage - 1) * parPage}</td>
+                                                            <td className='text-center'>{d.userDetails.fullName}</td>
+                                                            <td className='text-center'>{moment(d.date).format('DD-MM-YYYY')}</td>
+                                                            <td className='text-center'>{moment(d.time, 'HH:mm').format('hh:mm A')}</td>
+                                                            <td style={{ textTransform: "capitalize", fontWeight: "bold" }} className={`${d.status === 'approved' ? 'text-success' : d.status === 'rejected' ? 'text-danger' : 'text-primary'} text-center`}>{d.status}</td>
+
+
+                                                            <td className='text-center' style={{ cursor: 'pointer', textDecoration: "underline", fontWeight: "bold" }}>
 
                                                                 <div className="dropdown">
                                                                     <button className="btn btn-primary btn-sm dropdown-toggl" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -150,7 +156,6 @@ const DoctorDashboard = () => {
                                                     </select>
                                                 </div>
                                             </div>
-
 
                                         </div>
 

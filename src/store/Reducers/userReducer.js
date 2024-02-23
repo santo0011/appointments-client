@@ -142,6 +142,19 @@ export const get_appointment = createAsyncThunk(
   }
 );
 
+// cancle_appointment
+export const cancle_appointment = createAsyncThunk(
+  "user/cancle_appointment",
+  async (obj, { rejectWithValue, fulfillWithValue }) => {
+    try {
+      const { data } = await api.put(`/cancle-appointment`, obj);
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 
 export const userReducer = createSlice({
   name: "user",
@@ -154,7 +167,9 @@ export const userReducer = createSlice({
     userSuccess: "",
     userDoctors: [],
     userDoctorCount: 0,
-    doctorDetails: {}
+    doctorDetails: {},
+    myAppointments: [],
+    myAppointmentCount: 0
   },
   reducers: {
     messageClear: (state, _) => {
@@ -235,6 +250,29 @@ export const userReducer = createSlice({
       state.errorMessage = payload.error
     },
     [book_appointment.fulfilled]: (state, { payload }) => {
+      state.loader = false
+      state.successMessage = payload.message
+    },
+    [get_appointment.pending]: (state, _) => {
+      state.loader = true
+    },
+    [get_appointment.rejected]: (state, { payload }) => {
+      state.loader = false
+      state.errorMessage = payload.error
+    },
+    [get_appointment.fulfilled]: (state, { payload }) => {
+      state.loader = false
+      state.myAppointments = payload.myAppointments
+      state.myAppointmentCount = payload.myAppointmentCount
+    },
+    [cancle_appointment.pending]: (state, _) => {
+      state.loader = true
+    },
+    [cancle_appointment.rejected]: (state, { payload }) => {
+      state.loader = false
+      state.errorMessage = payload.error
+    },
+    [cancle_appointment.fulfilled]: (state, { payload }) => {
       state.loader = false
       state.successMessage = payload.message
     },

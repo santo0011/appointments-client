@@ -113,19 +113,18 @@ const Notifications = () => {
 
                                                     {isAdmin ?
                                                         (unseenNotifications?.map(notification => (
-                                                            <div key={notification.id} className={`alert-${notification.message.includes('rejecte') ? 'danger' : 'success'} my-2 py-3 px-3 rounded`} style={{ cursor: 'pointer' }} onClick={() => navigate(notification.onclickPath)}>
+                                                            <div key={notification.id} className={`alert-${notification.message.includes('rejecte') || notification.message.includes('cancle') || notification.message.includes('block') ? 'danger' : 'success'} my-2 py-3 px-3 rounded`} style={{ cursor: 'pointer' }} onClick={() => navigate(notification.onclickPath)}>
                                                                 <span className="">{notification.message} !</span>
                                                             </div>
                                                         ))) :
                                                         (userUnseenNotifications.map(notification => (
-                                                            <div key={notification._id} className={`alert-${notification.message.includes('rejecte') ? 'danger' : 'success'} my-2 py-3 px-3 rounded`} style={{ cursor: 'pointer' }} onClick={() => navigate(notification.onclickPath)}>
+                                                            <div key={notification._id} className={`alert-${notification.message.includes('rejecte') || notification.message.includes('cancle') || notification.message.includes('block')   ? 'danger' : 'success'} my-2 py-3 px-3 rounded`} style={{ cursor: 'pointer' }} onClick={() => navigate(notification.onclickPath)}>
                                                                 <span className="">{notification.message} !</span>
                                                             </div>
                                                         )))
                                                     }
 
                                                 </div>
-
 
 
                                             </div>
@@ -139,12 +138,12 @@ const Notifications = () => {
 
                                                     {isAdmin ?
                                                         (seenNotifications?.map(notification => (
-                                                            <div key={notification.id} className={`alert-${notification.message.includes('rejecte') ? 'danger' : 'success'} my-2 py-3 px-3 rounded`} style={{ cursor: 'pointer' }} onClick={() => navigate(notification.onclickPath)}>
+                                                            <div key={notification.id} className={`alert-${notification.message.includes('rejecte') || notification.message.includes('cancle') || notification.message.includes('block') ? 'danger' : 'success'} my-2 py-3 px-3 rounded`} style={{ cursor: 'pointer' }} onClick={() => navigate(notification.onclickPath)}>
                                                                 <span className=''>{notification.message} !</span>
                                                             </div>
                                                         ))) :
                                                         (userSeenNotifications.map(notification => (
-                                                            <div key={notification.id} className={`alert-${notification.message.includes('rejecte') ? 'danger' : 'success'} my-2 py-3 px-3 rounded`} style={{ cursor: 'pointer' }} onClick={() => navigate(notification.onclickPath)}>
+                                                            <div key={notification.id} className={`alert-${notification.message.includes('rejecte') || notification.message.includes('cancle') || notification.message.includes('block') ? 'danger' : 'success'} my-2 py-3 px-3 rounded`} style={{ cursor: 'pointer' }} onClick={() => navigate(notification.onclickPath)}>
                                                                 <span className=''>{notification.message} !</span>
                                                             </div>
                                                         )))

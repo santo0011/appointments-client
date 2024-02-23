@@ -7,6 +7,8 @@ import { change_doctor_Staus, get_doctors_list, messageClear } from '../../store
 import Pagination from '../../components/layout/Pagination';
 import toast from 'react-hot-toast';
 import moment from 'moment';
+import { confirmMessagge } from '../../utils/aleartFunc';
+
 
 
 const Doctors = () => {
@@ -25,15 +27,24 @@ const Doctors = () => {
         setSearchValue(msg)
     };
 
+    // handleItemPerPageChange
+    const handleItemPerPageChange = (e) => {
+        setParPage(e.target.value)
+    }
+
 
     // approvedDoctor
-    const changeDoctorStauts = (id, userId, status) => {
+    const changeDoctorStauts = async (id, userId, status) => {
         const obj = {
             id,
             userId,
             status
         }
-        dispatch(change_doctor_Staus(obj))
+        const returnValue = await confirmMessagge(status);
+        if (returnValue) {
+            dispatch(change_doctor_Staus(obj))
+        }
+
     }
 
 
@@ -87,34 +98,39 @@ const Doctors = () => {
                                         <table className="table mt-0 pt-0">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col">No</th>
-                                                    <th scope="col">Name</th>
-                                                    <th scope="col">Phone</th>
-                                                    <th scope="col">Created At</th>
-                                                    <th scope="col">Status</th>
-                                                    <th scope="col">Actions</th>
+                                                    <th className='text-center' scope="col">No</th>
+                                                    <th className='text-center' scope="col">Name</th>
+                                                    <th className='text-center' scope="col">Phone</th>
+                                                    <th className='text-center' scope="col">Created At</th>
+                                                    <th className='text-center' scope="col">Status</th>
+                                                    <th className='text-center' scope="col">Actions</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {
                                                     allDoctor && allDoctor?.map((d, i) =>
                                                         <tr>
-                                                            <td>{i + 1 + (currentPage - 1) * parPage}</td>
-                                                            <td>{d.firstName} {d.lastName}</td>
-                                                            <td>{d.phoneNumber}</td>
-                                                            <td>{moment(d.createdAt).format('DD/MM/YYYY')}</td>
-                                                            <td style={{ textTransform: "capitalize" }}>{d.status}</td>
-                                                            <td style={{ cursor: 'pointer', textDecoration: "underline", fontWeight: "bold" }}>
-                                                                {d.status === 'pending' && (
-                                                                    <span onClick={() => (changeDoctorStauts(d._id, d.userId, 'approved'))} className="text-decoration-underline">Approve</span>
-                                                                )}
-                                                                {d.status === 'approved' && (
-                                                                    <span onClick={() => (changeDoctorStauts(d._id, d.userId, 'block'))} className="text-decoration-underline">Block</span>
-                                                                )}
-                                                                {d.status === 'block' && (
-                                                                    <span onClick={() => (changeDoctorStauts(d._id, d.userId, 'approved'))} className="text-decoration-underline">Active</span>
-                                                                )}
+                                                            <td className='text-center'>{i + 1 + (currentPage - 1) * parPage}</td>
+                                                            <td className='text-center'>{d.firstName} {d.lastName}</td>
+                                                            <td className='text-center'>{d.phoneNumber}</td>
+                                                            <td className='text-center'>{moment(d.createdAt).format('DD/MM/YYYY')}</td>
+                                                            <td style={{ textTransform: "capitalize", fontWeight: "bold" }} className={`${d.status === 'approved' ? 'text-success' : d.status === 'blocked' ? 'text-danger' : 'text-primary'} text-center`}>{d.status}</td>
+
+
+                                                            <td className='text-center' style={{ cursor: 'pointer', textDecoration: "underline", fontWeight: "bold" }}>
+
+                                                                <div className="dropdown">
+                                                                    <button className="btn btn-primary btn-sm dropdown-toggl" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                        Select
+                                                                    </button>
+                                                                    <ul className="dropdown-menu">
+                                                                        <li onClick={() => (changeDoctorStauts(d._id, d.userId, 'approved'))} ><a className="dropdown-item  text-success py-2 font-weight-bold">Approve</a></li>
+                                                                        <li onClick={() => (changeDoctorStauts(d._id, d.userId, 'blocked'))} ><a className="dropdown-item  text-danger py-2 font-weight-bold">Block</a></li>
+                                                                    </ul>
+                                                                </div>
+
                                                             </td>
+
                                                         </tr>
                                                     )
                                                 }
@@ -125,18 +141,45 @@ const Doctors = () => {
 
                                     </div>
 
-                                    <div className='ml-auto px-4'>
-                                        {
-                                            doctorCount >= parPage ?
-                                                <Pagination
-                                                    pageNumber={currentPage}
-                                                    setPageNumber={setCurrentPage}
-                                                    totalItem={doctorCount}
-                                                    parPage={parPage}
-                                                    showItem={Math.floor(doctorCount / parPage)}
-                                                /> : ''
-                                        }
+                                    <div class="d-flex justify-content-between">
+                                        <div className="col-md-4 d-flex justify-content-start align-items-center">
+                                            <div class="form-group row">
+                                                <label for="itemPerPage" class="col-sm-auto col-form-label">Select items per page :</label>
+                                                <div class="col-sm-auto">
+                                                    <select
+                                                        id='itemPerPage'
+                                                        style={{ width: "65px", marginLeft: "-23px", marginTop: "7px", padding: "3px" }}
+                                                        onChange={handleItemPerPageChange}
+                                                        value={parPage}
+                                                    >
+                                                        <option value="10">10</option>
+                                                        <option value="20">20</option>
+                                                        <option value="50">50</option>
+                                                        <option value="100">100</option>
+
+                                                    </select>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+                                        <div className='px-4'>
+                                            {
+                                                doctorCount >= parPage ?
+                                                    <Pagination
+                                                        pageNumber={currentPage}
+                                                        setPageNumber={setCurrentPage}
+                                                        totalItem={doctorCount}
+                                                        parPage={parPage}
+                                                        showItem={Math.floor(doctorCount / parPage)}
+                                                    /> : ''
+                                            }
+                                        </div>
+
                                     </div>
+
+
                                 </div>
                             </div>
 
