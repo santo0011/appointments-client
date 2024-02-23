@@ -109,7 +109,7 @@ const Notifications = () => {
                                                     <p>Mark all as seen</p>
                                                 </div>
 
-                                                <div style={{ height: "300px", overflowY: "auto" }}>
+                                                <div style={{ height: "400px", overflowY: "auto" }}>
 
                                                     {isAdmin ?
                                                         (unseenNotifications?.map(notification => (
@@ -134,7 +134,7 @@ const Notifications = () => {
                                                     <p>Delete all</p>
                                                 </div>
 
-                                                <div style={{ height: "300px", overflowY: "auto" }}>
+                                                <div style={{ height: "400px", overflowY: "auto" }}>
 
                                                     {isAdmin ?
                                                         (seenNotifications?.map(notification => (
