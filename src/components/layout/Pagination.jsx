@@ -4,7 +4,7 @@ import React from 'react';
 const Pagination = ({ pageNumber, setPageNumber, totalItem, parPage, showItem }) => {
 
     const paginationBtn = {
-        background: '#4f49a4',
+        background: '#878787',
         color: '#fff',
         fontWeight: 600,
         padding: '5px 9px',
@@ -12,7 +12,7 @@ const Pagination = ({ pageNumber, setPageNumber, totalItem, parPage, showItem })
     }
 
     const activePage = {
-        background: '#1572e8',
+        background: '#444',
         color: '#fff',
         fontWeight: 600,
         padding: '5px 12px',
@@ -20,13 +20,14 @@ const Pagination = ({ pageNumber, setPageNumber, totalItem, parPage, showItem })
     }
 
     const inActivePage = {
-        background: '#4f49a4',
+        background: '#878787',
         cursor: 'pointer',
         color: '#fff',
         fontWeight: 600,
         padding: '5px 12px',
         borderRadius: '5px'
     }
+
 
 
     let totalPage = Math.ceil(totalItem / parPage)

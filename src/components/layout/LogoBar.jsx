@@ -9,7 +9,7 @@ const LogoBar = () => {
 
     return (
         <div className="logo-header " data-background-color="purple2">
-            <a href="/profile" className="h5 text-white fw-bold my-auto text-decoration-none btn btn-secondary mx-1">
+            <a href="/profile" className="h5 text-white fw-bold my-auto text-decoration-none btn btn-secondary mx-1 logoBar">
                 {isAdmin ? "ADMIN" : (isDoctor ? "DOCTOR" : "USER")}
             </a>
             <button className="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">

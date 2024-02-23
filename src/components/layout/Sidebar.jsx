@@ -100,10 +100,10 @@ const Sidebar = () => {
                                     }`}
                                 key={data.path}
                             >
-                                <Link to={data.path}>
+                                <a href={data.path}>
                                     <i className={data.icon} />
                                     <p>{data.name}</p>
-                                </Link>
+                                </a>
                             </li>
                         ))}
                         <li className="nav-item" style={{ cursor: "pointer" }}>

@@ -90,34 +90,32 @@ const DoctorDashboard = () => {
                                     <div className="card-header">
                                         <div className="card-title bold-text">User Booking List</div>
                                     </div>
-                                    <div className="card-body">
-                                        <table className="table mt-0 pt-0">
+                                    <div className="p-3">
+                                        <table className="tbl">
                                             <thead>
                                                 <tr>
-                                                    <th className='text-center' scope="col">No</th>
-                                                    <th className='text-center' scope="col">User Name</th>
-                                                    <th className='text-center' scope="col">Date</th>
-                                                    <th className='text-center' scope="col">Time</th>
-                                                    <th className='text-center' scope="col">Status</th>
-                                                    <th className='text-center' scope="col">Actions</th>
-
+                                                    <th>No</th>
+                                                    <th>User Name</th>
+                                                    <th>Date</th>
+                                                    <th>Time</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {
                                                     requestAppointmets && requestAppointmets?.map((d, i) =>
                                                         <tr>
-                                                            <td className='text-center'>{i + 1 + (currentPage - 1) * parPage}</td>
-                                                            <td className='text-center'>{d.userDetails.fullName}</td>
-                                                            <td className='text-center'>{moment(d.date).format('DD-MM-YYYY')}</td>
-                                                            <td className='text-center'>{moment(d.time, 'HH:mm').format('hh:mm A')}</td>
-                                                            <td style={{ textTransform: "capitalize", fontWeight: "bold" }} className={`${d.status === 'approved' ? 'text-success' : d.status === 'rejected' ? 'text-danger' : 'text-primary'} text-center`}>{d.status}</td>
-
-
-                                                            <td className='text-center' style={{ cursor: 'pointer', textDecoration: "underline", fontWeight: "bold" }}>
-
+                                                            <td data-lable="No">{i + 1 + (currentPage - 1) * parPage}</td>
+                                                            <td data-lable="User Name">{d.userDetails.fullName}</td>
+                                                            <td data-lable="Date">{moment(d.date).format('DD-MM-YYYY')}</td>
+                                                            <td data-lable="Time">{moment(d.time, 'HH:mm').format('hh:mm A')}</td>
+                                                            <td data-lable="Status">
+                                                                <span style={{ textTransform: "capitalize", fontWeight: "bold" }} className={`${d.status === 'approved' ? 'text-success' : d.status === 'rejected' ? 'text-danger' : 'text-primary'} text-center asdfksfasdf`}>{d.status}</span>
+                                                            </td>
+                                                            <td data-lable="Action">
                                                                 <div className="dropdown">
-                                                                    <button className="btn btn-primary btn-sm dropdown-toggl" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    <button className="btn btn-danger btn-sm dropdown-toggl" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                                         Select
                                                                     </button>
                                                                     <ul className="dropdown-menu">
@@ -125,9 +123,7 @@ const DoctorDashboard = () => {
                                                                         <li onClick={() => (handleBookingStatus(d._id, 'rejected', d))} ><a className="dropdown-item  text-danger py-2 font-weight-bold">Reject</a></li>
                                                                     </ul>
                                                                 </div>
-
                                                             </td>
-
                                                         </tr>
                                                     )
                                                 }
@@ -138,7 +134,7 @@ const DoctorDashboard = () => {
 
                                     </div>
                                     <div class="d-flex justify-content-between">
-                                        <div className="col-md-4 d-flex justify-content-start align-items-center">
+                                        <div className="col-md-4 d-flex justify-content-start align-items-center itemParPageStyle">
                                             <div class="form-group row">
                                                 <label for="itemPerPage" class="col-sm-auto col-form-label">Select items per page :</label>
                                                 <div class="col-sm-auto">

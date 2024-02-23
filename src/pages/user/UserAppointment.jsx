@@ -94,18 +94,18 @@ const UserAppointment = () => {
                                     <div className="card-header">
                                         <div className="card-title bold-text">My Booking List</div>
                                     </div>
-                                    <div className="card-body">
-                                        <table className="table mt-0 pt-0 ">
+                                    <div className="p-3">
+                                        <table className="tbl">
                                             <thead>
                                                 <tr>
-                                                    <th className='text-center' scope="col">No</th>
-                                                    <th className='text-center' scope="col">Doctor Name</th>
-                                                    <th className='text-center' scope="col">Date</th>
-                                                    <th className='text-center' scope="col">Time</th>
-                                                    <th className='text-center' scope="col">Fee</th>
-                                                    <th className='text-center' scope="col">Location</th>
-                                                    <th className='text-center' scope="col">Status</th>
-                                                    <th className='text-center' scope="col">Action</th>
+                                                    <th>No</th>
+                                                    <th>Doctor Name</th>
+                                                    <th>Date</th>
+                                                    <th>Time</th>
+                                                    <th>Fee</th>
+                                                    <th>Location</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
 
                                                 </tr>
                                             </thead>
@@ -115,16 +115,18 @@ const UserAppointment = () => {
                                                     myAppointments && myAppointments?.map((d, i) => {
                                                         return <>
                                                             <tr>
-                                                                <td className='text-center'>{i + 1 + (currentPage - 1) * parPage}</td>
-                                                                <td className='text-center'>Dr. {d.doctorDetails.firstName} {d.doctorDetails.lastName}</td>
-                                                                <td className='text-center'>{moment(d.date).format('DD/MM/YYYY')}</td>
-                                                                <td className='text-center'>{moment(d.time, 'HH:mm').format('hh:mm A')}</td>
+                                                                <td data-lable="No">{i + 1 + (currentPage - 1) * parPage}</td>
+                                                                <td data-lable="Doctor Name">Dr. {d.doctorDetails.firstName} {d.doctorDetails.lastName}</td>
+                                                                <td data-lable="Date">{moment(d.date).format('DD/MM/YYYY')}</td>
+                                                                <td data-lable="Time">{moment(d.time, 'HH:mm').format('hh:mm A')}</td>
 
-                                                                <td className='text-center'> ₹  {d.doctorDetails.feePerConsultation}</td>
-                                                                <td className='text-center'>{d.doctorDetails.address}</td>
-                                                                <td style={{ textTransform: "capitalize", fontWeight: "bold" }} className={`${d.status === 'approved' ? 'text-success' : d.status === 'rejected' ? 'text-danger' : 'text-primary'} text-center`}>{d.status}</td>
+                                                                <td data-lable="Fee"> ₹  {d.doctorDetails.feePerConsultation}</td>
+                                                                <td data-lable="Location">{d.doctorDetails.address}</td>
+                                                                <td data-lable="Status">
+                                                                    <span style={{ textTransform: "capitalize", fontWeight: "bold" }} className={`${d.status === 'approved' ? 'text-success' : d.status === 'rejected' ? 'text-danger' : 'text-primary'} text-center`}>{d.status}</span>
+                                                                </td>
 
-                                                                <td className='text-center'>
+                                                                <td data-lable="Action">
                                                                     <button onClick={() => cancleAppointment(d._id, d.doctorDetails.userId)} className='btn btn-danger px-2 py-1 font-weight-bold'>Cancle</button>
                                                                 </td>
 
@@ -142,7 +144,7 @@ const UserAppointment = () => {
 
 
                                     <div class="d-flex justify-content-between">
-                                        <div className="col-md-4 d-flex justify-content-start align-items-center">
+                                        <div className="col-md-4 d-flex justify-content-start align-items-center itemParPageStyle">
                                             <div class="form-group row">
                                                 <label for="itemPerPage" class="col-sm-auto col-form-label">Select items per page :</label>
                                                 <div class="col-sm-auto">

@@ -21,6 +21,8 @@ import DoctorProtectRoute from './pages/auth/DoctorProtectRoute';
 import DoctorDashboard from './pages/doctor/DoctorDashboard';
 import DoctorProfile from './pages/doctor/DoctorProfile';
 import UserAppointment from './pages/user/UserAppointment';
+import './App.css'
+
 
 
 const App = () => {

@@ -94,33 +94,35 @@ const Doctors = () => {
                                     <div className="card-header">
                                         <div className="card-title bold-text">Doctors List</div>
                                     </div>
-                                    <div className="card-body">
-                                        <table className="table mt-0 pt-0">
+                                    <div className="p-3">
+                                        <table className="tbl">
                                             <thead>
                                                 <tr>
-                                                    <th className='text-center' scope="col">No</th>
-                                                    <th className='text-center' scope="col">Name</th>
-                                                    <th className='text-center' scope="col">Phone</th>
-                                                    <th className='text-center' scope="col">Created At</th>
-                                                    <th className='text-center' scope="col">Status</th>
-                                                    <th className='text-center' scope="col">Actions</th>
+                                                    <th>No</th>
+                                                    <th>Name</th>
+                                                    <th>Phone</th>
+                                                    <th>Created At</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {
                                                     allDoctor && allDoctor?.map((d, i) =>
                                                         <tr>
-                                                            <td className='text-center'>{i + 1 + (currentPage - 1) * parPage}</td>
-                                                            <td className='text-center'>{d.firstName} {d.lastName}</td>
-                                                            <td className='text-center'>{d.phoneNumber}</td>
-                                                            <td className='text-center'>{moment(d.createdAt).format('DD/MM/YYYY')}</td>
-                                                            <td style={{ textTransform: "capitalize", fontWeight: "bold" }} className={`${d.status === 'approved' ? 'text-success' : d.status === 'blocked' ? 'text-danger' : 'text-primary'} text-center`}>{d.status}</td>
+                                                            <td data-lable="No">{i + 1 + (currentPage - 1) * parPage}</td>
+                                                            <td data-lable="Name">{d.firstName} {d.lastName}</td>
+                                                            <td data-lable="Phone">{d.phoneNumber}</td>
+                                                            <td data-lable="Created At">{moment(d.createdAt).format('DD/MM/YYYY')}</td>
+                                                            <td data-lable="Status">
+                                                                <span style={{ textTransform: "capitalize", fontWeight: "bold" }} className={`${d.status === 'approved' ? 'text-success' : d.status === 'blocked' ? 'text-danger' : 'text-primary'}`}>{d.status}</span>
+                                                            </td>
 
 
-                                                            <td className='text-center' style={{ cursor: 'pointer', textDecoration: "underline", fontWeight: "bold" }}>
+                                                            <td data-lable="Action">
 
                                                                 <div className="dropdown">
-                                                                    <button className="btn btn-primary btn-sm dropdown-toggl" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                    <button className="btn btn-danger btn-sm dropdown-toggl" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                                                         Select
                                                                     </button>
                                                                     <ul className="dropdown-menu">
@@ -142,7 +144,7 @@ const Doctors = () => {
                                     </div>
 
                                     <div class="d-flex justify-content-between">
-                                        <div className="col-md-4 d-flex justify-content-start align-items-center">
+                                        <div className="col-md-4 d-flex justify-content-start align-items-center itemParPageStyle">
                                             <div class="form-group row">
                                                 <label for="itemPerPage" class="col-sm-auto col-form-label">Select items per page :</label>
                                                 <div class="col-sm-auto">
