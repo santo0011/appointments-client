@@ -1,14 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Navbar from '../../components/layout/Navbar';
 import Sidebar from '../../components/layout/Sidebar';
 import LogoBar from '../../components/layout/LogoBar';
 
 
 const Users = () => {
+
+    const [sideBar, setSideBar] = useState('')
+
+    // handleSideBar
+    const handleSideBar = (bar) => {
+        setSideBar(bar)
+    }
+
     return (
-        <div className="wrapper">
+        <div className={`wrapper ${sideBar ? 'sidebar_minimize' : ''}`}>
             <div className="main-header">
-                <LogoBar />
+                <LogoBar onIcon={handleSideBar} />
                 <Navbar />
             </div>
             <Sidebar />

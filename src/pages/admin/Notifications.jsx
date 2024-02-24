@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../../components/layout/Navbar';
 import Sidebar from '../../components/layout/Sidebar';
 import LogoBar from '../../components/layout/LogoBar';
@@ -18,6 +18,13 @@ const Notifications = () => {
     const { unseenNotifications, loader, seenNotifications, successMessage, errorMessage } = useSelector(state => state.admin);
     const { userInfo } = useSelector((state) => state.auth);
     const { id, email, isAdmin, name } = userInfo;
+
+    const [sideBar, setSideBar] = useState('')
+
+    // handleSideBar
+    const handleSideBar = (bar) => {
+        setSideBar(bar)
+    }
 
 
     // markAllSeen
@@ -76,9 +83,9 @@ const Notifications = () => {
 
 
     return (
-        <div className="wrapper">
+        <div className={`wrapper ${sideBar ? 'sidebar_minimize' : ''}`}>
             <div className="main-header">
-                <LogoBar />
+                <LogoBar onIcon={handleSideBar} />
                 <Navbar />
             </div>
             <Sidebar />
@@ -113,12 +120,12 @@ const Notifications = () => {
 
                                                     {isAdmin ?
                                                         (unseenNotifications?.map(notification => (
-                                                            <div key={notification.id} className={`alert-${notification.message.includes('rejecte') || notification.message.includes('cancle') || notification.message.includes('block') ? 'danger' : 'success'} my-2 py-3 px-3 rounded`} style={{ cursor: 'pointer' }} onClick={() => navigate(notification.onclickPath)}>
+                                                            <div key={notification.id} className={`alert-${notification.message.includes('rejecte') || notification.message.includes('cancle') || notification.message.includes('block') ? 'danger' : 'success'} my-2 py-3 px-3 rounded`} style={{ cursor: 'pointer' }} >
                                                                 <span className="">{notification.message} !</span>
                                                             </div>
                                                         ))) :
                                                         (userUnseenNotifications.map(notification => (
-                                                            <div key={notification._id} className={`alert-${notification.message.includes('rejecte') || notification.message.includes('cancle') || notification.message.includes('block')   ? 'danger' : 'success'} my-2 py-3 px-3 rounded`} style={{ cursor: 'pointer' }} onClick={() => navigate(notification.onclickPath)}>
+                                                            <div key={notification._id} className={`alert-${notification.message.includes('rejecte') || notification.message.includes('cancle') || notification.message.includes('block') ? 'danger' : 'success'} my-2 py-3 px-3 rounded`} style={{ cursor: 'pointer' }} >
                                                                 <span className="">{notification.message} !</span>
                                                             </div>
                                                         )))
@@ -138,12 +145,12 @@ const Notifications = () => {
 
                                                     {isAdmin ?
                                                         (seenNotifications?.map(notification => (
-                                                            <div key={notification.id} className={`alert-${notification.message.includes('rejecte') || notification.message.includes('cancle') || notification.message.includes('block') ? 'danger' : 'success'} my-2 py-3 px-3 rounded`} style={{ cursor: 'pointer' }} onClick={() => navigate(notification.onclickPath)}>
+                                                            <div key={notification.id} className={`alert-${notification.message.includes('rejecte') || notification.message.includes('cancle') || notification.message.includes('block') ? 'danger' : 'success'} my-2 py-3 px-3 rounded`} style={{ cursor: 'pointer' }} >
                                                                 <span className=''>{notification.message} !</span>
                                                             </div>
                                                         ))) :
                                                         (userSeenNotifications.map(notification => (
-                                                            <div key={notification.id} className={`alert-${notification.message.includes('rejecte') || notification.message.includes('cancle') || notification.message.includes('block') ? 'danger' : 'success'} my-2 py-3 px-3 rounded`} style={{ cursor: 'pointer' }} onClick={() => navigate(notification.onclickPath)}>
+                                                            <div key={notification.id} className={`alert-${notification.message.includes('rejecte') || notification.message.includes('cancle') || notification.message.includes('block') ? 'danger' : 'success'} my-2 py-3 px-3 rounded`} style={{ cursor: 'pointer' }} >
                                                                 <span className=''>{notification.message} !</span>
                                                             </div>
                                                         )))

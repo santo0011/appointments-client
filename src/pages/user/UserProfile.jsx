@@ -12,10 +12,17 @@ import moment from 'moment';
 
 
 const UserProfile = () => {
+
+    const [sideBar, setSideBar] = useState('')
+
+    // handleSideBar
+    const handleSideBar = (bar) => {
+        setSideBar(bar)
+    }
     return (
-        <div className="wrapper">
+        <div className={`wrapper ${sideBar ? 'sidebar_minimize' : ''}`}>
             <div className="main-header">
-                <LogoBar />
+                <LogoBar onIcon={handleSideBar} />
                 <Navbar />
             </div>
             <Sidebar />

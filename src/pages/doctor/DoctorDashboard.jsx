@@ -21,6 +21,13 @@ const DoctorDashboard = () => {
     const [searchValue, setSearchValue] = useState('');
     const [currentPage, setCurrentPage] = useState(1)
     const [parPage, setParPage] = useState(10)
+    const [sideBar, setSideBar] = useState('')
+
+    // handleSideBar
+    const handleSideBar = (bar) => {
+        setSideBar(bar)
+    }
+
 
 
     // handleItemPerPageChange
@@ -73,9 +80,9 @@ const DoctorDashboard = () => {
 
 
     return (
-        <div className="wrapper">
+        <div className={`wrapper ${sideBar ? 'sidebar_minimize' : ''}`}>
             <div className="main-header">
-                <LogoBar />
+                <LogoBar onIcon={handleSideBar} />
                 <Navbar onMessage={handleMessage} />
             </div>
             <Sidebar />

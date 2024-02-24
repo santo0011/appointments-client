@@ -22,10 +22,16 @@ const Appointments = () => {
     const { userInfo } = useSelector((state) => state.auth);
 
     const { register, handleSubmit, formState: { errors } } = useForm();
-
     const [isBook, setIsBook] = useState(false)
 
+    const [sideBar, setSideBar] = useState('')
 
+    // handleSideBar
+    const handleSideBar = (bar) => {
+        setSideBar(bar)
+    }
+
+    // onSubmit
     const onSubmit = (data) => {
         const { date, time } = data;
 
@@ -65,9 +71,9 @@ const Appointments = () => {
 
 
     return (
-        <div className="wrapper">
+        <div className={`wrapper ${sideBar ? 'sidebar_minimize' : ''}`}>
             <div className="main-header">
-                <LogoBar />
+                <LogoBar onIcon={handleSideBar} />
                 <Navbar />
             </div>
             <Sidebar />

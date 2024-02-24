@@ -20,6 +20,14 @@ const DoctorProfile = () => {
 
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();
 
+    const [sideBar, setSideBar] = useState('')
+
+    // handleSideBar
+    const handleSideBar = (bar) => {
+        setSideBar(bar)
+    }
+
+
 
     const [doctor, setDector] = useState({
         firstName: "",
@@ -95,9 +103,9 @@ const DoctorProfile = () => {
     }, [id, successMessage])
 
     return (
-        <div className="wrapper">
+        <div className={`wrapper ${sideBar ? 'sidebar_minimize' : ''}`}>
             <div className="main-header">
-                <LogoBar />
+                <LogoBar onIcon={handleSideBar} />
                 <Navbar />
             </div>
             <Sidebar />

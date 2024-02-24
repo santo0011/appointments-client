@@ -15,7 +15,7 @@ import { confirmMessagge } from '../../utils/aleartFunc';
 
 
 const UserAppointment = () => {
-    const { userInfo } = useSelector((state) => state.auth);
+    const { userInfo, sideClassName } = useSelector((state) => state.auth);
     const { id, email, isAdmin, name, isDoctor } = userInfo;
 
     const dispatch = useDispatch();
@@ -23,11 +23,15 @@ const UserAppointment = () => {
     const { errorMessage, successMessage, loader, myAppointments, myAppointmentCount } = useSelector(state => state.user);
 
 
-
     const [searchValue, setSearchValue] = useState('');
     const [currentPage, setCurrentPage] = useState(1)
     const [parPage, setParPage] = useState(10)
+    const [sideBar, setSideBar] = useState('')
 
+    // handleSideBar
+    const handleSideBar = (bar) => {
+        setSideBar(bar)
+    }
 
     // handleMessage
     const handleMessage = (msg) => {
@@ -76,17 +80,19 @@ const UserAppointment = () => {
     }, [errorMessage, successMessage])
 
 
+    // console.log("sideClassName", sideClassName)
+
+
     return (
-        <div className="wrapper">
+        <div className={`wrapper ${sideBar ? 'sidebar_minimize' : ''}`}>
             <div className="main-header">
-                <LogoBar />
+                <LogoBar onIcon={handleSideBar} />
                 <Navbar onMessage={handleMessage} />
             </div>
             <Sidebar />
             <div className="main-panel">
                 <div className="content">
                     <div className="page-inner">
-
 
                         <div className="row">
                             <div className="col-md-12">

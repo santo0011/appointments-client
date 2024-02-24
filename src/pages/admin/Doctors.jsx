@@ -20,7 +20,12 @@ const Doctors = () => {
     const [searchValue, setSearchValue] = useState('');
     const [currentPage, setCurrentPage] = useState(1)
     const [parPage, setParPage] = useState(10)
+    const [sideBar, setSideBar] = useState('')
 
+    // handleSideBar
+    const handleSideBar = (bar) => {
+        setSideBar(bar)
+    }
 
     // handleMessage
     const handleMessage = (msg) => {
@@ -79,9 +84,9 @@ const Doctors = () => {
 
 
     return (
-        <div className="wrapper">
-            <div className="main-header">
-                <LogoBar />
+        <div className={`wrapper ${sideBar ? 'sidebar_minimize' : ''}`}>
+        <div className="main-header">
+            <LogoBar onIcon={handleSideBar} />
                 <Navbar onMessage={handleMessage} />
             </div>
             <Sidebar />

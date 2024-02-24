@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from '../../components/layout/Navbar';
 import Sidebar from '../../components/layout/Sidebar';
 import LogoBar from '../../components/layout/LogoBar';
@@ -16,9 +16,17 @@ const ApplyDoctor = () => {
 
     const { errorMessage, loader, successMessage } = useSelector(state => state.user);
 
-
     const { register, handleSubmit, formState: { errors } } = useForm();
 
+
+    const [sideBar, setSideBar] = useState('')
+
+    // handleSideBar
+    const handleSideBar = (bar) => {
+        setSideBar(bar)
+    }
+
+    // onSubmit
     const onSubmit = (data) => {
         const { firstName, lastName, email, phoneNumber, address, department, specialization, experience, feePerConsultation, fromTime, toTime } = data;
         const obj = {
@@ -42,9 +50,9 @@ const ApplyDoctor = () => {
 
 
     return (
-        <div className="wrapper">
+        <div className={`wrapper ${sideBar ? 'sidebar_minimize' : ''}`}>
             <div className="main-header">
-                <LogoBar />
+                <LogoBar onIcon={handleSideBar} />
                 <Navbar />
             </div>
             <Sidebar />

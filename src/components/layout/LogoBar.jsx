@@ -1,11 +1,18 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-const LogoBar = () => {
+const LogoBar = ({ onIcon }) => {
 
     const { userInfo } = useSelector((state) => state.auth);
     const { id, email, isAdmin, name, isDoctor } = userInfo;
 
+    const [sideBar, setSideBar] = useState(false)
+
+    // handleSideBar
+    const handleSideBar = () => {
+        setSideBar(!sideBar)
+        onIcon(!sideBar)
+    }
 
     return (
         <div className="logo-header " data-background-color="purple2">
@@ -19,12 +26,18 @@ const LogoBar = () => {
             </button>
             <button className="topbar-toggler more"><i className="icon-options-vertical" /></button>
             <div className="nav-toggle ml-5" style={{ zIndex: -1 }}>
-                <button className="btn btn-toggle toggle-sidebar mx-4">
+                <button onClick={handleSideBar} className="btn btn-toggle toggle-sidebar mx-4 ">
                     <i className="icon-menu" />
                 </button>
             </div>
         </div>
     )
+}
+
+LogoBar.defaultProps = {
+    onIcon: () => {
+
+    }
 }
 
 
