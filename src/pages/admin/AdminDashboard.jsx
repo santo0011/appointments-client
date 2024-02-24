@@ -12,6 +12,11 @@ const AdminDashboard = () => {
 
     // handleSideBar
     const handleSideBar = (bar) => {
+        const header = document.getElementById('changeHeader');
+
+        if (header) {
+            header.classList.toggle('nav_open', bar !== true);
+        }
         setSideBar(bar)
     }
 

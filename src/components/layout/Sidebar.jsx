@@ -51,11 +51,11 @@ const Sidebar = () => {
             path: "/doctor",
             icon: "fas fa-home",
         },
-        {
-            name: "Appointments",
-            path: "/book-appointments/",
-            icon: "fas fa-calendar-alt",
-        },
+        // {
+        //     name: "Appointments",
+        //     path: "/book-appointments/",
+        //     icon: "fas fa-calendar-alt",
+        // },
         {
             name: "Profile",
             path: "/doctor-profile",

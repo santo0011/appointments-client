@@ -25,9 +25,13 @@ const DoctorDashboard = () => {
 
     // handleSideBar
     const handleSideBar = (bar) => {
+        const header = document.getElementById('changeHeader');
+
+        if (header) {
+            header.classList.toggle('nav_open', bar !== true);
+        }
         setSideBar(bar)
     }
-
 
 
     // handleItemPerPageChange
@@ -78,9 +82,17 @@ const DoctorDashboard = () => {
     }, [errorMessage, successMessage])
 
 
+    // const removeHeaderClass = () => {
+    //     const header = document.getElementById('header');
+    //     if (header) {
+    //         header.classList.remove('nav_open');
+    //     }
+    // };
+
+
 
     return (
-        <div className={`wrapper ${sideBar ? 'sidebar_minimize' : ''}`}>
+        <div className={`wrapper  ${sideBar ? 'sidebar_minimize' : ''}`}>
             <div className="main-header">
                 <LogoBar onIcon={handleSideBar} />
                 <Navbar onMessage={handleMessage} />
@@ -96,6 +108,7 @@ const DoctorDashboard = () => {
                                 <div className="card">
                                     <div className="card-header">
                                         <div className="card-title bold-text">User Booking List</div>
+                                        {/* <button onClick={removeHeaderClass}>Remove Header Class</button> */}
                                     </div>
                                     <div className="p-3">
                                         <table className="tbl">

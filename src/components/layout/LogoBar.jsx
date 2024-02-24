@@ -19,7 +19,7 @@ const LogoBar = ({ onIcon }) => {
             <a href="/profile" className="h5 text-white fw-bold my-auto text-decoration-none btn btn-secondary mx-1 logoBar">
                 {isAdmin ? "ADMIN" : (isDoctor ? "DOCTOR" : "USER")}
             </a>
-            <button className="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
+            <button onClick={handleSideBar} className="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon">
                     <i className="icon-menu" />
                 </span>

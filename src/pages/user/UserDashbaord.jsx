@@ -13,6 +13,8 @@ import { Link } from 'react-router-dom';
 const UserDashbaord = () => {
     const dispatch = useDispatch();
 
+    /* changeHeader */
+
     const { userDoctorCount, loader, userDoctors } = useSelector(state => state.user);
 
 
@@ -23,6 +25,12 @@ const UserDashbaord = () => {
 
     // handleSideBar
     const handleSideBar = (bar) => {
+        const header = document.getElementById('changeHeader');
+
+        if (header) {
+            header.classList.toggle('nav_open', bar !== true);
+        }
+
         setSideBar(bar)
     }
 
