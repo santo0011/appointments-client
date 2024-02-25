@@ -22,6 +22,7 @@ import DoctorDashboard from './pages/doctor/DoctorDashboard';
 import DoctorProfile from './pages/doctor/DoctorProfile';
 import UserAppointment from './pages/user/UserAppointment';
 import './App.css'
+import Test from './pages/Test';
 
 
 
@@ -73,6 +74,7 @@ const App = () => {
 
         {/* InvalidPage route */}
         <Route path='*' element={<InvalidPage />} />
+        <Route path='/test' element={<Test />} />
 
       </Routes>
     </>

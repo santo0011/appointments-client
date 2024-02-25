@@ -89,3 +89,8 @@
   }
 
 } */
+
+.enabled-date {
+  background-color: #ff0000a1 !important;
+  color: white !important;
+}

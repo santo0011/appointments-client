@@ -10,6 +10,9 @@ import toast from 'react-hot-toast';
 import { overrideStyle } from '../../utils/utils';
 import { book_appointment, check_book_avilabity, get_doctor_details, messageClear } from '../../store/Reducers/userReducer';
 import moment from 'moment';
+import { timeFormat } from '../../utils/timeFunc';
+import Select from 'react-select';
+
 
 
 
@@ -23,6 +26,8 @@ const Appointments = () => {
 
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [isBook, setIsBook] = useState(false)
+    const [option, setOption] = useState([]);
+
 
     const [sideBar, setSideBar] = useState('')
 
@@ -56,6 +61,61 @@ const Appointments = () => {
         }
 
     };
+
+
+    // dateOpt
+    const dateOpt = [
+        { hour: 16, minute: 30 },
+        { hour: 17, minute: 15 }
+    ]
+
+
+    useEffect(() => {
+
+        const from_time = doctorDetails?.fromTime;
+        const to_time = doctorDetails?.toTime;
+
+        if (from_time) {
+            const [hour, minutes] = from_time?.split(":").map(Number);
+            const [hour2, minutes2] = to_time?.split(":").map(Number);
+
+            // Convert times to minutes
+            const totalMinutes1 = hour * 60 + minutes;
+            const totalMinutes2 = hour2 * 60 + minutes2;
+            // Calculate difference in minutes
+            const minuteDiff = (totalMinutes2 - totalMinutes1) / 15;
+
+
+            const data = timeFormat(hour, minutes, minuteDiff);
+            const updatedData = data.map(time => {
+                const match = dateOpt.find(opt => opt.hour === Number(time.value.split(':')[0]) && opt.minute === Number(time.value.split(':')[1]));
+                if (match) {
+                    return { ...time, isDisabled: true };
+                }
+                return time;
+            });
+
+            setOption(updatedData);
+
+        }
+
+    }, [doctorDetails])
+
+    // handleChange
+    const handleChange = (selectedOption) => {
+        console.log(selectedOption.value);
+    }
+
+    // customStyles
+    const customStyles = {
+        option: (provided, state) => ({
+            ...provided,
+            backgroundColor: state.isDisabled ? '#ff0000a1' : 'white',
+            color: state.isDisabled ? 'white' : 'black'
+        })
+    };
+
+
 
     useEffect(() => {
         dispatch(get_doctor_details(appoinmentId))
@@ -99,7 +159,7 @@ const Appointments = () => {
                                                     <h4>Timings</h4>
                                                 </div>
                                                 <div>
-                                                    <p className="card-category px-2 font-weight-bold">{moment(doctorDetails?.fromTime, 'HH:mm').format('hh:mm A')} - {moment(doctorDetails?.toTime, 'HH:mm').format('hh:mm A')}</p>
+                                                    <p className="card-category px-2 font-weight-bold">{doctorDetails?.fromTime} - {doctorDetails?.toTime}</p>
 
                                                     <form onSubmit={handleSubmit(onSubmit)}>
 
@@ -115,7 +175,16 @@ const Appointments = () => {
                                                             <div className="form-group px-0">
                                                                 <input type="time" className={`form-control ${errors.time ? 'is-invalid' : ''}`} id="time" {...register('time', { required: 'Time is required' })} />
                                                                 {errors.time && <div className="invalid-feedback">{errors.time.message}</div>}
+                                                            </div>
 
+                                                            <div className="form-group px-0">
+                                                                <Select
+                                                                    onChange={handleChange}
+                                                                    options={option}
+                                                                    isDisabled={option.length === 0}
+                                                                    styles={customStyles}
+                                                                    placeholder="Select Time..."
+                                                                />
                                                             </div>
 
                                                             {
