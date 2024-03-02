@@ -217,93 +217,86 @@
 
 
 
+import React, { useEffect, useState } from 'react';
+
+const Test = () => {
+    const [newDate, setNewDate] = useState([]);
+
+    function padWithZero(num) {
+        return num < 10 ? '0' + num : num;
+    }
+
+    function generateTimeIntervals() {
+        const intervals = [];
+        let hour = 15; // 3:00 PM in 24-hour format
+        let minute = 30;
+
+        for (let i = 0; i <= 8; i++) { // 2 hours * 4 (15-minute intervals)
+            intervals.push({
+                hour: padWithZero(hour),
+                minute: padWithZero(minute),
+                isDanger: false, // Initialize isDanger as false
+                isDisabled: false // Initialize isDisabled as false
+            });
+
+            // Increment time by 15 minutes
+            minute += 15;
+            if (minute === 60) {
+                minute = 0;
+                hour++;
+            }
+        }
+
+        return intervals;
+    }
+
+    const dateOpt = [
+        { hour: 15, minute: 30 },
+        { hour: 16, minute: 30 }
+    ];
+
+    useEffect(() => {
+        const data = generateTimeIntervals();
+        // Mark options from newDate that match dateOpt as dangerous and disabled
+        const updatedData = data.map(time => {
+            const match = dateOpt.find(opt => opt.hour === Number(time.hour) && opt.minute === Number(time.minute));
+            if (match) {
+                return { ...time, isDanger: true, isDisabled: true };
+            }
+            return time;
+        });
+        setNewDate(updatedData);
+    }, []);
+
+    return (
+        <div style={{ padding: "50px" }}>
+            <h1>Text</h1>
+            <div className="container">
+                <div className="row">
+                    <div className="col-lg-4">
+                        <div className="form-group px-0">
+                            <select className="form-control" aria-label="Default select example">
+                                <option style={{fontSize:"20px"}} selected>Select Time</option>
+                                {newDate.map((d, index) => (
+                                    <option  key={index} value="" style={{fontSize:"20px", backgroundColor: d.isDanger ? '#ff0000a1' : 'inherit', color: d.isDanger ? 'white' : 'black' }} disabled={d.isDisabled}>
+                                        {d.hour} : {d.minute}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export default Test;
 
 
 
 
-
-
-// import React, { useEffect, useState } from 'react';
-
-// const Test = () => {
-//     const [newDate, setNewDate] = useState([]);
-
-//     function padWithZero(num) {
-//         return num < 10 ? '0' + num : num;
-//     }
-
-//     function generateTimeIntervals() {
-//         const intervals = [];
-//         let hour = 15; // 3:00 PM in 24-hour format
-//         let minute = 30;
-
-//         for (let i = 0; i <= 8; i++) { // 2 hours * 4 (15-minute intervals)
-//             intervals.push({
-//                 hour: padWithZero(hour),
-//                 minute: padWithZero(minute),
-//                 isDanger: false, // Initialize isDanger as false
-//                 isDisabled: false // Initialize isDisabled as false
-//             });
-
-//             // Increment time by 15 minutes
-//             minute += 15;
-//             if (minute === 60) {
-//                 minute = 0;
-//                 hour++;
-//             }
-//         }
-
-//         return intervals;
-//     }
-
-//     const dateOpt = [
-//         { hour: 15, minute: 30 },
-//         { hour: 16, minute: 30 },
-//         { hour: 17, minute: 15 }
-//     ];
-
-//     useEffect(() => {
-//         const data = generateTimeIntervals();
-//         // Mark options from newDate that match dateOpt as dangerous and disabled
-//         const updatedData = data.map(time => {
-//             const match = dateOpt.find(opt => opt.hour === Number(time.hour) && opt.minute === Number(time.minute));
-//             if (match) {
-//                 return { ...time, isDanger: true, isDisabled: true };
-//             }
-//             return time;
-//         });
-//         setNewDate(updatedData);
-//     }, []);
-
-//     return (
-//         <div style={{ padding: "50px" }}>
-//             <h1>Text</h1>
-//             <div className="container">
-//                 <div className="row">
-//                     <div className="col-lg-4">
-//                         <div className="form-group px-0">
-//                             <select className="form-control" aria-label="Default select example">
-//                                 <option style={{fontSize:"20px"}} selected>Select Time</option>
-//                                 {newDate.map((d, index) => (
-//                                     <option  key={index} value="" style={{fontSize:"20px", backgroundColor: d.isDanger ? '#ff0000a1' : 'inherit', color: d.isDanger ? 'white' : 'black' }} disabled={d.isDisabled}>
-//                                         {d.hour} : {d.minute}
-//                                     </option>
-//                                 ))}
-//                             </select>
-//                         </div>
-//                     </div>
-//                 </div>
-//             </div>
-//         </div>
-//     )
-// }
-
-// export default Test;
-
-
-
-
-
+/* 
 import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import DatePicker from 'react-datepicker';
@@ -399,68 +392,65 @@ export default Test;
 
 
 
-
-
-
-
-
-
-/* 
-import React, { useState } from 'react';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-
-const Test = () => {
-    const [selectedDate, setSelectedDate] = useState(null);
-
-    // Sample disabled dates
-    const disabledDates = [
-        new Date(2024, 1, 15),
-        new Date(2024, 1, 16),
-        new Date(2024, 1, 19)
-    ];
-
-    // Function to check if a date is disabled
-    const isDateDisabled = date => {
-        return !disabledDates.some(disabledDate => {
-            return date.getDate() === disabledDate.getDate() &&
-                date.getMonth() === disabledDate.getMonth() &&
-                date.getFullYear() === disabledDate.getFullYear();
-        });
-    };
-
-    // Function to format date in 'YYYY-MM-DD' format
-    const formatDate = date => {
-        return date.toISOString().split('T')[0];
-    };
-
-    return (
-        <div className='p-5'>
-            <div className="container">
-                <div className="row">
-                    <div className="col-lg-4">
-                        <div className="form-group px-0">
-                            <DatePicker
-                                showIcon
-                                icon="fa fa-calendar"
-                                selected={selectedDate}
-                                onChange={date => setSelectedDate(date)}
-                                dateFormat="MM/dd/yyyy" // Format as MM/DD/YYYY
-                                filterDate={isDateDisabled}
-                                className="form-control"
-                                calendarClassName="custom-calendar"
-                                dayClassName={(date) => (isDateDisabled(date) ? null : "enabled-date")}
-                                placeholderText="Select appointment date"
-                                disabledKeyboardNavigation // Disable keyboard navigation
-                                onKeyDown={(e) => e.preventDefault()} // Prevent key events
-                            />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-};
-
-export default Test;
  */
+
+
+
+
+// import React, { useState } from 'react';
+// import DatePicker from 'react-datepicker';
+// import 'react-datepicker/dist/react-datepicker.css';
+
+// const Test = () => {
+//     const [selectedDate, setSelectedDate] = useState(null);
+
+//     // Sample disabled dates
+//     const disabledDates = [
+//         new Date(2024, 1, 15),
+//         new Date(2024, 1, 16),
+//         new Date(2024, 1, 19)
+//     ];
+
+//     // Function to check if a date is disabled
+//     const isDateDisabled = date => {
+//         return !disabledDates.some(disabledDate => {
+//             return date.getDate() === disabledDate.getDate() &&
+//                 date.getMonth() === disabledDate.getMonth() &&
+//                 date.getFullYear() === disabledDate.getFullYear();
+//         });
+//     };
+
+//     // Function to format date in 'YYYY-MM-DD' format
+//     const formatDate = date => {
+//         return date.toISOString().split('T')[0];
+//     };
+
+//     return (
+//         <div className='p-5'>
+//             <div className="container">
+//                 <div className="row">
+//                     <div className="col-lg-4">
+//                         <div className="form-group px-0">
+//                             <DatePicker
+//                                 showIcon
+//                                 icon="fa fa-calendar"
+//                                 selected={selectedDate}
+//                                 onChange={date => setSelectedDate(date)}
+//                                 dateFormat="MM/dd/yyyy" // Format as MM/DD/YYYY
+//                                 filterDate={isDateDisabled}
+//                                 className="form-control"
+//                                 calendarClassName="custom-calendar"
+//                                 dayClassName={(date) => (isDateDisabled(date) ? null : "enabled-date")}
+//                                 placeholderText="Select appointment date"
+//                                 disabledKeyboardNavigation // Disable keyboard navigation
+//                                 onKeyDown={(e) => e.preventDefault()} // Prevent key events
+//                             />
+//                         </div>
+//                     </div>
+//                 </div>
+//             </div>
+//         </div>
+//     );
+// };
+
+// export default Test;

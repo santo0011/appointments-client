@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Navbar from '../../components/layout/Navbar';
 import Sidebar from '../../components/layout/Sidebar';
 import LogoBar from '../../components/layout/LogoBar';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { PropagateLoader } from 'react-spinners';
@@ -24,7 +24,7 @@ const Appointments = () => {
     const { doctorDetails, loader, successMessage, errorMessage } = useSelector((state) => state.user);
     const { userInfo } = useSelector((state) => state.auth);
 
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, control, formState: { errors } } = useForm();
     const [isBook, setIsBook] = useState(false)
     const [option, setOption] = useState([]);
 
@@ -43,11 +43,14 @@ const Appointments = () => {
 
     // onSubmit
     const onSubmit = (data) => {
-        const { date, time } = data;
+        const { date, time, selectTime } = data;
+
+        // console.log(selectTime.value)
+
 
         const obj = {
             date,
-            time,
+            time: selectTime.value,
             userId: userInfo.id,
             userName: userInfo.name,
             doctorId: doctorDetails._id,
@@ -65,8 +68,8 @@ const Appointments = () => {
 
     // dateOpt
     const dateOpt = [
-        { hour: 16, minute: 30 },
-        { hour: 17, minute: 15 }
+        // { hour: 16, minute: 30 },
+        // { hour: 17, minute: 15 }
     ]
 
 
@@ -102,16 +105,16 @@ const Appointments = () => {
     }, [doctorDetails])
 
     // handleChange
-    const handleChange = (selectedOption) => {
-        console.log(selectedOption.value);
-    }
+    // const handleChange = (selectedOption) => {
+    //     console.log(selectedOption.value);
+    // }
 
     // customStyles
     const customStyles = {
         option: (provided, state) => ({
             ...provided,
             backgroundColor: state.isDisabled ? '#ff0000a1' : 'white',
-            color: state.isDisabled ? 'white' : 'black'
+            color: state.isDisabled ? 'white' : 'black',
         })
     };
 
@@ -173,17 +176,22 @@ const Appointments = () => {
                                                             </div>
 
                                                             <div className="form-group px-0">
-                                                                <input type="time" className={`form-control ${errors.time ? 'is-invalid' : ''}`} id="time" {...register('time', { required: 'Time is required' })} />
-                                                                {errors.time && <div className="invalid-feedback">{errors.time.message}</div>}
-                                                            </div>
-
-                                                            <div className="form-group px-0">
-                                                                <Select
-                                                                    onChange={handleChange}
-                                                                    options={option}
-                                                                    isDisabled={option.length === 0}
-                                                                    styles={customStyles}
-                                                                    placeholder="Select Time..."
+                                                                <Controller
+                                                                    name="selectTime"
+                                                                    control={control}
+                                                                    rules={{ required: true }}
+                                                                    render={({ field }) => (
+                                                                        <>
+                                                                            <Select
+                                                                                {...field}
+                                                                                options={option}
+                                                                                styles={customStyles}
+                                                                                placeholder="Select Time..."
+                                                                                isDisabled={option.length === 0}
+                                                                            />
+                                                                            {errors.selectTime && <p style={{ color: "#dc3545", fontSize: "12px" }}>Time is required.</p>}
+                                                                        </>
+                                                                    )}
                                                                 />
                                                             </div>
 

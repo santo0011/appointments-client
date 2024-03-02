@@ -80,11 +80,11 @@ const Sidebar = () => {
             path: "/admin-doctors",
             icon: "fas fa-address-book",
         },
-        {
-            name: "Profile",
-            path: "/admin-profile",
-            icon: "fas fa-user",
-        },
+        // {
+        //     name: "Profile",
+        //     path: "/admin-profile",
+        //     icon: "fas fa-user",
+        // },
     ];
 
     const routes = isAdmin === true ? adminRouter : isDoctor === true ? doctorRouter : userRouter;

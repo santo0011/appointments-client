@@ -8,15 +8,16 @@ import toast from 'react-hot-toast';
 import { overrideStyle } from '../../utils/utils';
 import { useDispatch, useSelector } from 'react-redux';
 import { apply_doctor, messageClear } from '../../store/Reducers/userReducer';
+import { timeFormat } from '../../utils/timeFunc';
 
 
 const ApplyDoctor = () => {
 
     const dispatch = useDispatch();
-
     const { errorMessage, loader, successMessage } = useSelector(state => state.user);
-
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const [option, setOption] = useState([]);
+
 
 
     const [sideBar, setSideBar] = useState('')
@@ -24,7 +25,6 @@ const ApplyDoctor = () => {
     // handleSideBar
     const handleSideBar = (bar) => {
         const header = document.getElementById('changeHeader');
-
         if (header) {
             header.classList.toggle('nav_open', bar !== true);
         }
@@ -40,6 +40,27 @@ const ApplyDoctor = () => {
         dispatch(apply_doctor(obj))
     };
 
+    useEffect(() => {
+
+        const from_time = '09:30';
+        const to_time = '19:30';
+
+        if (from_time) {
+            const [hour, minutes] = from_time?.split(":").map(Number);
+            const [hour2, minutes2] = to_time?.split(":").map(Number);
+
+            // Convert times to minutes
+            const totalMinutes1 = hour * 60 + minutes;
+            const totalMinutes2 = hour2 * 60 + minutes2;
+            // Calculate difference in minutes
+            const minuteDiff = (totalMinutes2 - totalMinutes1) / 15;
+
+            const data = timeFormat(hour, minutes, minuteDiff);
+
+            setOption(data);
+        }
+
+    }, [])
 
 
     useEffect(() => {
@@ -173,17 +194,43 @@ const ApplyDoctor = () => {
                                                     </div>
                                                 </div>
                                                 <div className="col-md-6 col-lg-4">
+
                                                     <div className="form-group">
                                                         <label htmlFor="fromTime">From Time <span className='text-danger'>*</span></label>
-                                                        <input type="time" className={`form-control ${errors.fromTime ? 'is-invalid' : ''}`} id="fromTime" {...register('fromTime', { required: 'From Time is required' })} />
+                                                        <select
+                                                            className={`form-control ${errors.fromTime ? 'is-invalid' : ''}`}
+                                                            id="fromTime"
+                                                            {...register('fromTime', { required: 'From time is required' })}
+                                                        >
+                                                            <option style={{ fontSize: "18px" }} value=''>Select Time</option>
+                                                            {option.map((d, index) => (
+                                                                <option key={index} value={d.value} style={{ fontSize: "18px" }}>
+                                                                    {d.label}
+                                                                </option>
+                                                            ))}
+                                                        </select>
                                                         {errors.fromTime && <div className="invalid-feedback">{errors.fromTime.message}</div>}
                                                     </div>
+
+
                                                 </div>
                                                 <div className="col-md-6 col-lg-4">
                                                     <div className="form-group">
                                                         <label htmlFor="toTime">To Time <span className='text-danger'>*</span></label>
-                                                        <input type="time" className={`form-control ${errors.toTime ? 'is-invalid' : ''}`} id="toTime" {...register('toTime', { required: 'To Time is required' })} />
+                                                        <select
+                                                            className={`form-control ${errors.toTime ? 'is-invalid' : ''}`}
+                                                            id="toTime"
+                                                            {...register('toTime', { required: 'To time is required' })}
+                                                        >
+                                                            <option style={{ fontSize: "18px" }} value=''>Select Time</option>
+                                                            {option.map((d, index) => (
+                                                                <option key={index} value={d.value} style={{ fontSize: "18px" }}>
+                                                                    {d.label}
+                                                                </option>
+                                                            ))}
+                                                        </select>
                                                         {errors.toTime && <div className="invalid-feedback">{errors.toTime.message}</div>}
+
                                                     </div>
                                                 </div>
                                             </div>

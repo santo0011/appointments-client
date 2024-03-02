@@ -46,7 +46,7 @@ const UserDashbaord = () => {
             searchValue
         }
         dispatch(get_all_doctor(obj))
-    }, [searchValue, currentPage, parPage,])
+    }, [searchValue, currentPage, parPage])
 
 
 

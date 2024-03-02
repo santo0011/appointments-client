@@ -58,12 +58,39 @@ export const get_doctors_list = createAsyncThunk(
     }
 )
 
-// get_doctors_list
+// change_doctor_Staus
 export const change_doctor_Staus = createAsyncThunk(
     'admin/change_doctor_Staus',
     async (obj, { rejectWithValue, fulfillWithValue }) => {
         try {
             const { data } = await api.put(`/change-doctor-status`, obj);
+            return fulfillWithValue(data)
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
+
+// get_users_list
+export const get_users_list = createAsyncThunk(
+    'admin/get_users_list',
+    async ({ searchValue, page, parPage }, { rejectWithValue, fulfillWithValue }) => {
+        try {
+            const { data } = await api.get(`/get-users-list?searchValue=${searchValue}&&page=${page}&&parPage=${parPage}`);
+            return fulfillWithValue(data)
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
+// change_user_Staus
+export const change_user_Staus = createAsyncThunk(
+    'admin/change_user_Staus',
+    async (obj, { rejectWithValue, fulfillWithValue }) => {
+        try {
+            const { data } = await api.put(`/change-user-status`, obj);
             return fulfillWithValue(data)
         } catch (error) {
             return rejectWithValue(error.response.data)
@@ -82,7 +109,9 @@ export const adminReducer = createSlice({
         seenNotifications: [],
         unseenNotifications: [],
         allDoctor: [],
-        doctorCount: 0
+        doctorCount: 0,
+        allUsers: [],
+        userCount: 0
     },
     reducers: {
         messageClear: (state, _) => {
@@ -130,6 +159,22 @@ export const adminReducer = createSlice({
             state.loader = false
             state.successMessage = payload.message
         },
+        [get_users_list.pending]: (state, _) => {
+            state.loader = true
+        },
+        [get_users_list.fulfilled]: (state, { payload }) => {
+            state.loader = false
+            state.allUsers = payload.allUsers
+            state.userCount = payload.userCount
+        },
+        [change_user_Staus.rejected]: (state, { payload }) => {
+            state.loader = false
+            state.errorMessage = payload.error
+        },
+        [change_user_Staus.fulfilled]: (state, { payload }) => {
+            state.loader = false
+            state.successMessage = payload.message
+        }
 
     }
 });
