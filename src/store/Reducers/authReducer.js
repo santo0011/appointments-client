@@ -9,6 +9,20 @@ export const user_register = createAsyncThunk(
     async (info, { rejectWithValue, fulfillWithValue }) => {
         try {
             const { data } = await api.post('/user-register', info);
+            localStorage.setItem('appointmentVerifyToken', data.verifyEmailToken)
+            return fulfillWithValue(data)
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+
+// verify_email
+export const verify_email = createAsyncThunk(
+    'auth/verify_email',
+    async (obj, { rejectWithValue, fulfillWithValue }) => {
+        try {
+            const { data } = await api.post('/verify-email', obj);
             return fulfillWithValue(data)
         } catch (error) {
             return rejectWithValue(error.response.data)
@@ -23,7 +37,6 @@ export const user_login = createAsyncThunk(
     async (info, { rejectWithValue, fulfillWithValue }) => {
         try {
             const { data } = await api.post('/user-login', info);
-
             localStorage.setItem('user_info', JSON.stringify(data.userInfo))
             localStorage.setItem('user_token', data.token)
             return fulfillWithValue(data)
@@ -60,6 +73,17 @@ export const authReducer = createSlice({
             state.errorMessage = payload.error
         },
         [user_register.fulfilled]: (state, { payload }) => {
+            state.loader = false
+            state.successMessage = payload.message
+        },
+        [verify_email.pending]: (state, _) => {
+            state.loader = true
+        },
+        [verify_email.rejected]: (state, { payload }) => {
+            state.loader = false
+            state.errorMessage = payload.error
+        },
+        [verify_email.fulfilled]: (state, { payload }) => {
             state.loader = false
             state.successMessage = payload.message
         },

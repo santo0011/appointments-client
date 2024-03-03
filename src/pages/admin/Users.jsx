@@ -121,7 +121,7 @@ const Users = () => {
                                                             <td data-lable="No">{i + 1 + (currentPage - 1) * parPage}</td>
                                                             <td data-lable="Name">{d.fullName}</td>
                                                             <td data-lable="Created At">{moment(d.createdAt).format('DD/MM/YYYY')}</td>
-                                                            <td data-label="Status">
+                                                            <td data-lable="Status">
                                                                 <span style={{ textTransform: "capitalize", fontWeight: "bold" }} className={`${d.isActive === false ? 'text-success' : 'text-danger'}`}>
                                                                     <i className={`fas fa-${d.isActive === true ? 'minus' : 'check'}-circle`}></i>
                                                                 </span>

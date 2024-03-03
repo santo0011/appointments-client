@@ -23,6 +23,7 @@ import DoctorProfile from './pages/doctor/DoctorProfile';
 import UserAppointment from './pages/user/UserAppointment';
 import './App.css'
 import Test from './pages/Test';
+import EmailVerify from './pages/auth/EmailVerify';
 
 
 
@@ -42,6 +43,7 @@ const App = () => {
       <Routes>
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
+        <Route path='/register/email-verify' element={<EmailVerify />} />
 
         {/* user ProtectRoute */}
         <Route path='/' element={<ProtectRoute />}>
@@ -68,7 +70,7 @@ const App = () => {
         <Route path='/' element={<DoctorProtectRoute />}>
           <Route path='doctor' element={<DoctorDashboard />} />
           <Route path='doctor-profile' element={<DoctorProfile />} />
-          
+
           <Route path='doctor-notifications' element={<Notifications />} />
         </Route>
 

@@ -17,7 +17,6 @@ const Register = () => {
     const navigate = useNavigate();
     const { errorMessage, loader, successMessage } = useSelector(state => state.auth);
 
-
     // onSubmit
     const onSubmit = (data) => {
         const { fullName, email, password } = data;
@@ -38,10 +37,9 @@ const Register = () => {
         if (successMessage) {
             toast.success(successMessage)
             dispatch(messageClear())
-            navigate('/login', { replace: true })
+            navigate('/register/email-verify', { replace: true })
         }
     }, [errorMessage, successMessage])
-
 
     return (
         <div className='registerStyle py-5'>
